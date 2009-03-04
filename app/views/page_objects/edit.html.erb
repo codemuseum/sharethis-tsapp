@@ -1,0 +1,38 @@
+<% stylesheets 'sharethis', 'sharethis-edit' -%>
+<% javascripts 'sharethis-edit' %>
+
+<% fields_for_page_object do |f| %>
+
+  
+  <% unless @page_object.all_buttons.empty? %>
+    <% fields_for "#{f.object_name}[assigned_button]", f.object.displayed_button do |auf| -%>
+
+      <%= auf.label :id, "Button Widget" %>
+      <%= auf.select :id, (f.object.all_buttons + [["New...", nil]]), { :selected => (f.object.has_button? ? f.object.displayed_button.id : '') }, { :class => 'button-select' } %>
+
+    <% end %>
+  <% end %>
+  
+  
+  <% fields_for "#{f.object_name}[assigned_button]", Button.new(:default => f.object.default_button.nil?) do |auf| -%>
+    <div class="edited-value<%= ' hidden' if f.object.has_button? %>">
+      <div>
+        <%= auf.label :nickname %>
+        <%= auf.text_field :nickname %>
+      </div>
+      
+      <div>
+        <div><%= auf.label :code, "Button Widge Code from ShareThis" %></div>
+        <div><%= auf.text_area :code, :rows => 5 %></div>
+      </div>
+      
+      <div>
+        <%= auf.label :default, 'Set as default' %>
+        <%= auf.select :default, [['Yes', true], ['No', false]] %>
+      </div>
+    </div>
+
+    <%= auf.hidden_field :edited_unit %>
+  <% end %>
+
+<% end %>

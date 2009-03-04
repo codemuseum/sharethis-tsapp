@@ -1,0 +1,10 @@
+<% stylesheets 'sharethis' -%>
+<% # javascripts 'my-app' %>
+
+<% if @page_object.has_button? %>
+  <div class="button"><%= @page_object.displayed_button.code %></div>
+<% else %>
+  <div class="no-button"></div>
+<% end %>
+
+
